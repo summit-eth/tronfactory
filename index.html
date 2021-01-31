@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="main.c466cd2a.chunk.css">
 </head>
 <body class="bb"><noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="root"></div>
+<div id="root"></div><div id="countdown"></div>
 <script>!function (l) { function e(e) { for (var r, t, n = e[0], o = e[1], u = e[2], f = 0, i = []; f < n.length; f++)t = n[f], p[t] && i.push(p[t][0]), p[t] = 0; for (r in o) Object.prototype.hasOwnProperty.call(o, r) && (l[r] = o[r]); for (s && s(e); i.length;)i.shift()(); return c.push.apply(c, u || []), a() } function a() { for (var e, r = 0; r < c.length; r++) { for (var t = c[r], n = !0, o = 1; o < t.length; o++) { var u = t[o]; 0 !== p[u] && (n = !1) } n && (c.splice(r--, 1), e = f(f.s = t[0])) } return e } var t = {}, p = { 1: 0 }, c = []; function f(e) { if (t[e]) return t[e].exports; var r = t[e] = { i: e, l: !1, exports: {} }; return l[e].call(r.exports, r, r.exports, f), r.l = !0, r.exports } f.m = l, f.c = t, f.d = function (e, r, t) { f.o(e, r) || Object.defineProperty(e, r, { enumerable: !0, get: t }) }, f.r = function (e) { "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(e, "__esModule", { value: !0 }) }, f.t = function (r, e) { if (1 & e && (r = f(r)), 8 & e) return r; if (4 & e && "object" == typeof r && r && r.__esModule) return r; var t = Object.create(null); if (f.r(t), Object.defineProperty(t, "default", { enumerable: !0, value: r }), 2 & e && "string" != typeof r) for (var n in r) f.d(t, n, function (e) { return r[e] }.bind(null, n)); return t }, f.n = function (e) { var r = e && e.__esModule ? function () { return e.default } : function () { return e }; return f.d(r, "a", r), r }, f.o = function (e, r) { return Object.prototype.hasOwnProperty.call(e, r) }, f.p = "/"; var r = window.webpackJsonp = window.webpackJsonp || [], n = r.push.bind(r); r.push = e, r = r.slice(); for (var o = 0; o < r.length; o++)e(r[o]); var s = n; a() }([])</script>
 <script src="2.5b771aab.chunk.js"></script>
 <script src="main.b8402ba7.chunk.js"></script>
@@ -105,23 +105,40 @@ $('body').on('click', '[data-toggle]', function () {
     return false
 })
 </script>
-<script>
-function countdown(end, now = new Date().getTime() / 1000) {
-    // Get today's date and time
-    var distance = (end - now) * 1000;
-    // Time calculations for days, hours, minutes and seconds
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    if (String(seconds).length === 1) seconds = '0' + seconds;
-    if (String(minutes).length === 1) minutes = '0' + minutes;
-    if (String(hours).length === 1) hours = '0' + hours;
-    if (String(days).length === 1) days = '0' + days;
-    // Display the result in the element with id="demo"
-    return days + ":" + hours + ":" + minutes + ":" + seconds + "";
+<style>
+#countdown {
+    font-weight: 900;
+    font-size: 1.8em;
+    background: #0e131d;
+    box-shadow: inset 0px -5px 15px -10px #000;
+    color: #f00;
+    text-align: center;
+    padding: 16px;
+    z-index: 1001;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
 }
-
+</style>
+<script src="countdown.js"></script>
+<script>
+$(function() {
+    var release = 1612184400000;
+    if(new Date().getTime() <= release) {
+        $("#countdown").show();
+        var cd = setInterval(function() {
+            if(new Date().getTime() <= release) {
+                $("#countdown").html(countdown(release).toString());
+            } else {
+                $("#countdown").hide();
+                clearInterval(cd);
+            }
+        }, 1000);
+    } else {
+        $("#countdown").hide();
+    }
+});
 
 function aviable(date_withdraw, date_end, amount, now = new Date().getTime()) {
 
